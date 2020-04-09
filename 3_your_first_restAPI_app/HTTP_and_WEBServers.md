@@ -1,3 +1,5 @@
+# HTTP, WebServers and Requests
+
 * **HTTP** is one of the most popular protocolls, one of the
 most popular way of creating interactions and allowing
 interactions between two internet connected elements,
@@ -64,5 +66,12 @@ the web server can then decide to respond back. It may not respond.
 | **Verb**   |      **Meaning**      |  **Example** |
 |----------|:-------------:|------:|
 | GET |  Retrieve Something | GET /item/1 |
-| ... |    ...   |   ... |
-| ... | ... |    ... |
+| POST |    Receive data, and use it   |   POST /item |
+| PUT | Make sure something is there |    PUT /item |  
+| DELETE | Remove something |    DELETE /item/1 | 
+
+* **POST**: for the server means receive data and use it. Presumably if you do **POST / item** that may create a new item, ex ```{"name" : "Chair", "Price" : 9.99}```. Also when you do a **POST** request normally you have to send some data along the post request, and it may be a piece of json
+
+* **PUT**: it means make sure something is there. Notice how it doesn't create things or do anything, it just makes sure that something is there. So if you do **PUT /item** with some data again ```{"name" : "Chair", "Price" : 7.99}```, that may create a new chair to make sure that the chair exists. Or, if the chair's already there, it may update the chair, change the price.
+
+* **DELETE**: it tends to mean remove something such as **DELETE /item/1**, and presumably it will delete the item with ID number 1.
