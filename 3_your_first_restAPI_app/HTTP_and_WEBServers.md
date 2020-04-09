@@ -34,19 +34,32 @@ the web server can then decide to respond back. It may not respond.
 ---
 * Examples:
     1) If you go to the twitter page, and attempt to log at https://twitter.com/login, that perform the GET request **GET/login**:
-    > GET /login HTTP/1.1  
-    > Host: https://twitter.com  
+    > #### GET /login HTTP/1.1  
+    > #### Host: https://twitter.com  
 
     As you can see, up to the .com is the host name, and anything after that is the path, what we are requesting.
     So, in this case, the host is https://twitter.com, and the path is **/login** which is what comes after.
 
     2) Similarly for this other page https://git-scm.com/download/mac, it performs the GET request:
-    > GET /download/mac HTTP/1.1  
-    > Host: https://git-smc.com
+    > #### GET /download/mac HTTP/1.1  
+    > #### Host: https://git-smc.com
 
     3) Finally, https://www.google.co.uk/:
-    > GET / HTTP/1.1
-    > Host: https://www.google.co.uk
+    > #### GET / HTTP/1.1
+    > #### Host: https://www.google.co.uk
 ---
 * Differences:
-    * 
+    * The only difference is what the server on the other end responds with.
+    * Twiter responds with the Twitter login HTML page.
+    * The git-smc responds with the git-smc downloads for mac HTML page.
+    * The google reponds with the main google home page.
+---
+* What Else?
+    * Going to a page will always do a **GET** request, so no matter where you go, the server's always gonna see the same thing. That's because the browser, such as Chrome or Safari is configured to do a get request whenever it accesses a page.
+    * But there are many other things we can do, such as **POST, DELETE, PUT, OPTIONS, HEAD**, and much more.
+    * Each server responds differently to each, but they normally have the same meaning in each server. So, all servers will respond to a **POST** request in similar ways, all servers will respond to a **DELETE** request in similar ways, in the same way that all servers will respond to a **GET** request in similar ways. That's because these things are so widely used that have nearly become a standard now.
+    ---
+* **HTTP Verbs**:
+>**Verb**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Meaning**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Example**
+
+>GET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Retrieve Something&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET /item/1
