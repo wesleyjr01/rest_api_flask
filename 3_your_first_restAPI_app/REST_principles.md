@@ -31,5 +31,13 @@ things, like text or errors, for example.
 * Another key feature is that REST is supposed to be stateless.
 * This means one request cannot depend on any other requests.
 * The server only knows about the current request, and not any previous requests.
-* Example 01, imagine we create a chair item:
+* **Example 01**, imagine we create a chair item:
     * **POST** **/item/chair** creates an item.
+    * The Server does not know the item now exists. It has created it, it has put it in a database, and then its forgot about it because it's sent us a response back, it said *item created* for example, and then it's forgotten that the item exists, but it is in the database.
+    * When we do **GET /item/chair**, then it goes to the database and checks to see if the item is there, and then return the item to us if it exists, or an error othewise.
+    * So when we make a **GET** request, the server doesn't know if the item exists, it has to do the full check, go to the database and check it.
+    * So to get an item you don't need to have created an item before - the item could be in the database from previously.
+* **Example 02**, a user logs in to a web application:
+    * When we do that, the server responds with some data, and that data is going to be really important. That data is going to be unique to this user.
+    * And once it does that, **the server doesn't know the user is logged in since it doesn't have any state**.
+    * What do we do? Well, remember that piece of unique data the server returned when we logged in? **The web application must send enough data to identify the user in every request, or else the server won't associate the request with the user.
