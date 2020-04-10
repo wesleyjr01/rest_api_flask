@@ -22,13 +22,15 @@ So the endpoints we are going to create are:
 """
 
 
-from flask import Flask
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-stores = [
-    {"name": "My Wonderful Store", "items": [{"name": "My Item", "price": 15.99}]}
-]
+stores = {
+    "stores": [
+        {"name": "My Wonderful Store", "items": [{"name": "My Item", "price": 15.99}]}
+    ]
+}
 """
 By default, when you use app.route, that is a GET request.
 And browsers, by default, only do get requests.
@@ -50,7 +52,7 @@ def get_store(name):
 # GET /stores
 @app.route("/store")
 def get_stores():
-    pass
+    return jsonify(stores)
 
 
 # POST /store/<string:name>/item {name:, price:}
