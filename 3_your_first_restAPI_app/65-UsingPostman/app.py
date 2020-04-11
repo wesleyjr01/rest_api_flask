@@ -66,4 +66,10 @@ def get_item_in_store(name):
     return jsonify({"message": "Store not found"})
 
 
+# define a home
+@app.route("/")
+def home():
+    return jsonify({"message": "Salgadation's API"})
+
+
 app.run(port=5000)
