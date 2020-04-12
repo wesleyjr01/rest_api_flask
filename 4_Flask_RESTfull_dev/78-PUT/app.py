@@ -75,10 +75,11 @@ class Item(Resource):
     #     """ Lecture Implementation. """
     #     global items
     #     items = list(filter(lambda x: x["name"] != name, items))
-    #     return {"message": "item deleted"}
+    #     return {"message": "item deleted"}, 200
 
     @jwt_required()
     def put(self, name):
+        """ My Own Implementation. """
         received_data = request.get_json(silent=True)
         new_item = {"name": name, "price": received_data["price"]}
         old_item = next(filter(lambda x: x["name"] == name, items), None)
@@ -86,6 +87,18 @@ class Item(Resource):
             items.remove(old_item)
         items.append(new_item)
         return {"item": new_item}, 200
+
+    # @jwt_required()
+    # def put(self, name):
+    #     """ Lecture Implementation. """
+    #     received_data = request.get_json(silent=True)
+    #     item = next(filter(lambda x: x["name"] == name, items), None)
+    #     if item is None:
+    #         item = {"name": name, "price": received_data["price"]}
+    #         items.append(item)
+    #     else:
+    #         item.update(received_data)
+    #     return item, 200
 
 
 class ItemList(Resource):
