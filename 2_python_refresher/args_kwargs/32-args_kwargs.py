@@ -11,7 +11,7 @@ complex(**{'real': 3, 'imag': 5})
 
 # Ex2:
 # Python program to illustrate 
-# *kargs for variable number of keyword arguments 
+# **kwargs for variable number of keyword arguments 
 
 def myFun(**kwargs): 
 	for key, value in kwargs.items(): 
