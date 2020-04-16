@@ -103,9 +103,13 @@ class Item(Resource):
 class ItemList(Resource):
     @jwt_required()
     def get(self):
-        connection = sqlite3.connect("data.db")
-        cursor = connection.cursor()
-        query = "SELECT * FROM items"
-        items = cursor.execute(query)
-        items.fetchall()
-        return {"items": items}, 201
+        try:
+            connection = sqlite3.connect("data.db")
+            cursor = connection.cursor()
+            query = "SELECT * FROM items"
+            items = cursor.execute(query)
+            items = items.fetchall()
+            connection.close()
+            return {"items": items}, 200
+        except:
+            return {"message": "Failed to retrive items."}, 500
