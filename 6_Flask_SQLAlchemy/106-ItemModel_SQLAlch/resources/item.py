@@ -22,47 +22,39 @@ class Item(Resource):
     @jwt_required()
     def post(self, name):
         if ItemModel.find_by_name(name):
-            return {"message": f"An item with name {name} already exists."}, 400
+            return {"message": f"An item with name {name} already exists."}
 
         received_data = Item.parser.parse_args()
         item = ItemModel(name, received_data["price"])
 
         try:
-            item.insert()
+            item.save_to_db()
         except:
-            return {"message": "An error ocurred inserting the item."}, 500
+            return {"message": "An error ocurred inserting the item."}
 
-        return {"Item Created:": item.json()}, 201
+        return item.json(), 201
 
     @jwt_required()
     def delete(self, name):
-        """ Lecture Implementation. """
-        connection = sqlite3.connect("data.db")
-        cursor = connection.cursor()
-
-        query = "DELETE FROM items WHERE name = ?"
-        cursor.execute(query, (name,))
-        connection.commit()
-        connection.close()
-        return {"message": f"item {name} deleted!"}, 200
+        item = ItemModel.find_by_name(name)
+        if item:
+            item.delete_from_db()
+        return {"message": "Item Deleted."}, 200
 
     @jwt_required()
     def put(self, name):
         """ Lecture Implementation. """
         received_data = Item.parser.parse_args()
         item = ItemModel.find_by_name(name)
-        updated_item = ItemModel(name, received_data["price"])
         if item is None:
-            try:
-                updated_item.insert()
-            except:
-                return {"message": "An error occured inserting the item."}, 500
+            item = ItemModel(name, received_data["price"])
         else:
             try:
-                updated_item.update()
+                item.price = received_data["price"]
             except:
                 return {"message": "An error occured updating the item"}, 500
-        return updated_item.json(), 200
+        item.save_to_db()
+        return item.json(), 200
 
 
 class ItemList(Resource):
