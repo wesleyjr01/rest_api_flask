@@ -12,7 +12,7 @@ class Item(Resource):
     )
 
     parser.add_argument(
-        "store", type=int, required=True, help="This field cannot be left blank!"
+        "store_id", type=int, required=True, help="This field cannot be left blank!"
     )
 
     @jwt_required()
@@ -25,7 +25,7 @@ class Item(Resource):
     @jwt_required()
     def post(self, name):
         if ItemModel.find_by_name(name):
-            return {"message": f"An item with name {name} already exists."}
+            return {"message": f"An item with name {name} already exists."}, 400
 
         received_data = Item.parser.parse_args()
         item = ItemModel(name, **received_data)
@@ -33,7 +33,7 @@ class Item(Resource):
         try:
             item.save_to_db()
         except:
-            return {"message": "An error ocurred inserting the item."}
+            return {"message": "An error ocurred inserting the item."}, 500
 
         return item.json(), 201
 
