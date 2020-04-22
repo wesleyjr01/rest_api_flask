@@ -28,4 +28,12 @@ What that means, and the way it's *different from Heroku*, is that in DigitalOce
     * Every user in postgraes, automatically connects to a postgres database, with the same name as the user, with the same name as the user.
     * \conninfo <- You are ,connected to database "postgres" as user "postgres" via socket in "/var/run/postgresql" at port "5432".
     * \q <- leaves the psql process, it leaves the database and goes back tot he Unix terminal.
-    * exit <- logout off the postgres user and go back being the root user.
+    * exit <- logout off the postgres user and go back being the root user.  
+---
+# Creating a UNIX user in Ubuntu 16.04
+* When we log in as the root user, we have acess to do anything so it can potentially mess up your server, making sure that you have to create another one. So we are going to create a new user by following the command ```adduser <username>```. It creates a *new user called username* and a *new group called username* as well. A group is a collection of users and you can set group permissions. For example, you may tell the Ubuntu server that all users in the group Jose have access to a specific folder, for example, it is just a way of setting permissions in Unix.
+* Next make sure you put a different password from the root user for security.
+* The next thing we have to do is make sure the *username* user can temporarily gain acess to being root so that we can do things like install programmes and things like that. We're gonna do that by running the command ```visudo```. A file will open, and you will type ```wesley  ALL=(ALL:ALL) ALL```
+right under ```root  ALL=(ALL:ALL) ALL``` under the **# User privilege specification** line.
+* Once that's done, we are going to save the file to the disk running the command ```CTRL+O```, and then we are going to press  **enter** to save it on top of the existing file, and finally we're gonna press ```CTRL+X``` to exit.
+* The next thing we have to do is to make sure that the **uername** user can login to the server directly as the Jose user, as the opposed to the root user. So we press ```vi /etc/ssh/sshd_config```, opening another text file.
