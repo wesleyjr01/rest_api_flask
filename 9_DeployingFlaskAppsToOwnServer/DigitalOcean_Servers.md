@@ -58,26 +58,26 @@ right under ```root  ALL=(ALL:ALL) ALL``` under the **# User privilege specifica
 
 ```
 server{  
-    listen 80;  
-    real_ip_header X-Forwarded-For;
-    set_real_ip_from 127.0.0.1;  
-    server_name localhost;
+listen 80;  
+real_ip_header X-Forwarded-For;
+set_real_ip_from 127.0.0.1;  
+server_name localhost;
 
-    location / {
-        include uwsgi_params;
-        uwsgi_pass unix:/var/www/html/items-rest/socket.sock;
-        uwsgi_modifier1 30;
-    }  
+location / {
+include uwsgi_params;
+uwsgi_pass unix:/var/www/html/items-rest/socket.sock;
+uwsgi_modifier1 30;
+}  
 
-    error_page 404 /404.html;  
-    location = /404.html {  
-        root /usr/share/nginx/html;  
-    }  
+error_page 404 /404.html;  
+location = /404.html {  
+root /usr/share/nginx/html;  
+}  
 
-    error_page 500 502 503 504 /50x.html;   
-    location = /50x.html {  
-        root /usr/share/nginx/html;  
-    }
+error_page 500 502 503 504 /50x.html;   
+location = /50x.html {  
+root /usr/share/nginx/html;  
+}
 
 }
 ```
@@ -96,3 +96,53 @@ server{
     * Firstly we defined the server, and this **server is going to be able to listen to incoming requests and then dispatch them where appropriate**. So this app, this server is going to **listen on port 80, which is the default HTTP port**. Whenever we acess a website on the internet, we're accessing on port 80, it is the default. So listening on port 80 is going to be interesting because it means that users don't have to do something like ```GET mysite.com:5645```, the colon(:) will be omitted whenever we access our rest api because the default is port 80. So if we're listening on port 80, we don't have to specify the port number.
     * **set_real_ap_from**: Although Nginx is going to forward the ip adress of the requester to our Flask app(real_ip_header X-Forwarded-For;), it's also going to say that the request is really coming from 127.0.0.1, which is local host, because Nginx is receiving the request, and then it's going to send that request to the Flask app, which will be running on local host.
     * **location / {}**: Whenever somebody accesses the root location of the server, it's going to redirect them somewhere, and where it's going to redirect them is to our Flask app.
+---
+# Setting up uWSGI to run our REST API
+* First, we are going to create what's called an Ubuntu Service. And a service is something that you can tell Ubuntu to run when the computer starts, when a server starts, and you can tell it to restart when it crashes, and things like that. **So essentially, a service is a descriptor of a programm**, and you can, essentially, set the service to run and restart, and things like that. In addition, a service also lets you do things like set environment variables before the service runs, which is gonna be very useful.
+* We'll create a new .service file: ```sudo vi /etc/systemd/system/uwsgi_items_rest.service```. Now type:
+```
+[Unit]
+Description=uWSGI items rest
+
+[Service]
+Environment=DATABASE_URL=postgres://<username>:<password>@localhost:5432/<database>
+ExecStart=/var/www/html/items-rest/venv/bin/uwsgi --master --emperor /var/www/html/items-rest/uwsgi.ini --die-on-term --uid <username> --gid <group> --logto /var/www/html/items-rest/log/emperor.log
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
+```
+* Now we have to change the uwsgi.ini file: ```vi uwsgi.ini```. Delete everything inside, than type the following inside the file:
+```
+[uwsgi]
+base = /var/www/html/items-rest
+app = run
+module = %(app)
+
+home = %(base)/venv
+pythonpath = %(base)
+
+socket = %(base)/socket.sock
+
+chmod-socket = 777
+
+processes = 8
+
+threads = 8
+
+harakiri = 15
+
+callable = app
+
+logto = /var/www/html/items-rest/log/%n.log
+```
+* And finally we can start our Flask App by doing ```sudo systemctl start uwsgi_items_rest```
+* Finally, we can look at the logs to see if anything went wrong: ```vi log/uwsgi.log```
+---
+# Testing our API to make sure everything works
+* There are a couple of things that we have to make sure of first. The first one, we have to make sure to delete the configuration of nginx that is the default. So if we go and do ```sudo rm /etc/nginx/sites-enabled/default``` and ```sudo rm /etc/nginx/sites-available/default```. You have to make sure to remove the default configuration file for nginx, or else whenever you try to acess you API, the first thing it's gonna do is it's gonna give you a 404 not found, because the default configuration property for nginx will be the first one that gets loaded.
+* Now ```sudo systemctl reload nginx``` and ```sudo systemctl restart nginx```, and finally ```sudo systemctl start uwsgi_items_rest```
+* Test the item on Postman!
