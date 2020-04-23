@@ -54,6 +54,45 @@ right under ```root  ALL=(ALL:ALL) ALL``` under the **# User privilege specifica
 * The first thing to do is to login into your server and ```sudo apt update``` and then ```sudo apt install nginx```, now we must let nginx have acess through the firewall, so the incoming requests dont get blocked ```sudo ufw status```, it sais *Status: inactive*, so we're going to enable firewall ```sudo ufw enable```, and finally we have to give Nginx acess, so we're going to do ```sudo ufw allow 'Nginx HTTP'```, and now if you do ```sudo ufw status``` it will show that Nginx HTTP is allowed.
 * Now allow ssh so we dont get locked out of the server! ```sudo ufw allow ssh```
 * Now we're going to make sure that Nginx is running, and it should be running, and the way to check that in Ubuntu is with the system controller: ```systemctl status nginx```.
-* Now we're going to the Nginx config and we're going to add our rest api to the Nginx config: ```sudo vi /etc/nginx/sites-available/items-rest.conf``` entering a brand new file, press "I" to go into Insert mode, we will write a bunch os stuff:
+* Now we're going to the Nginx config and we're going to add our rest api to the Nginx config: ```sudo vi /etc/nginx/sites-available/items-rest.conf``` entering a brand new file, press "I" to go into Insert mode, we will write a bunch os stuff:  
 
-* Observations on the text above: Firstly we defined the server, and this **server is going to be able to listen to incoming requests and then dispatch them where appropriate**. So this app, this server is going to **listen on port 80, which is the default HTTP port**. Whenever we acess a website on the internet, we're accessing on port 80, it is the default. So listening on port 80 is going to be interesting because it means that users don't have to do something like ```GET mysite.com:5645```, the colon(:) will be omitted whenever we access our rest api because the default is port 80. So if we're listening on port 80, we don't have to specify the port number.
+```
+server{  
+    listen 80;  
+    real_ip_header X-Forwarded-For;
+    set_real_ip_from 127.0.0.1;  
+    server_name localhost;
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/var/www/html/items-rest/socket.sock;
+        uwsgi_modifier1 30;
+    }  
+
+    error_page 404 /404.html;  
+    location = /404.html {  
+        root /usr/share/nginx/html;  
+    }  
+
+    error_page 500 502 503 504 /50x.html;   
+    location = /50x.html {  
+        root /usr/share/nginx/html;  
+    }
+
+}
+```
+
+* Now we enable the configs by ```sudo ln -s /etc/nginx/sites-available/items-rest.conf /etc/nginx/sites-enabled/```.
+* Now ```sudo mkdir /var/www/html/items-rest```. This is where our application is going to live. WE created this directory as the root user, and now we have to give our *username* acess to it too. ```sudo chown -R wesley:wesley /var/www/html/items-rest```(changed owner of this directory to the wesley user and to the wesley group, as opposed to the root user and the root group.)
+* Now we go into the directory ```cd /var/www/html/items-rest``` and the next thing we have to do is to **clone our Python App**. So I am going to use the same app as we used in the Heroku section: ```sudo git clone https://github.com/wesleyjr01/first_heroku_flask_restful_app.git .```
+* In order to produce logs for our App, we're going to create a directory called log: ```mkdir log```
+* Install Python stuff: ```sudo apt install python-pip```, then we're going to install a set of tools that Python needs to be able to compile from source ```sudo apt install python3-dev``` and finally ```sudo apt install libpq-dev```
+* Now we must install virtualenv ```pip install virtualenv```.
+* Now we are going to install a virtualenvironment in the same folder: ```virtualenv venv --python=python3```
+* ```source venv/bin/activate```
+* ```pip install -r requirements.txt```
+
+* Observations on **server{}** configs: 
+    * Firstly we defined the server, and this **server is going to be able to listen to incoming requests and then dispatch them where appropriate**. So this app, this server is going to **listen on port 80, which is the default HTTP port**. Whenever we acess a website on the internet, we're accessing on port 80, it is the default. So listening on port 80 is going to be interesting because it means that users don't have to do something like ```GET mysite.com:5645```, the colon(:) will be omitted whenever we access our rest api because the default is port 80. So if we're listening on port 80, we don't have to specify the port number.
+    * **set_real_ap_from**: Although Nginx is going to forward the ip adress of the requester to our Flask app(real_ip_header X-Forwarded-For;), it's also going to say that the request is really coming from 127.0.0.1, which is local host, because Nginx is receiving the request, and then it's going to send that request to the Flask app, which will be running on local host.
+    * **location / {}**: Whenever somebody accesses the root location of the server, it's going to redirect them somewhere, and where it's going to redirect them is to our Flask app.
