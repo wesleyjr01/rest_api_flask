@@ -1,0 +1,6 @@
+# Adding our DNS Records
+* So, in you domain tab in cloud flare, go to DNS. Now, press the **"X"** icon to remove all the records.
+* Now lets start to Add Records. The first one we will chose **"A"** on the dropdown on the left of the Page. The **"A"** record stores the IP adress of the server that this domain points to. So when a DNS query comes through, this is a domain that is going to be sent back to the person or the server making the query. The name of the **"A"** record has to be the name of the domain \<wesleybortolozo.com\>, and the IPv4 adress has to be the same as your Droplet from DigitalOcean, and the TTL(Time to Leave) we can leave that as automatic, and press the Save button.
+*  The **"AAAA"** is used for IPv6 instead of IPv4, you can Enable is on Digital Ocean but it is not free, so we wont use it.
+* Now we have the **"CNAME"**. A **"CNAME"** Record is used to create an alias for a domain. So the name of the record is what the alias is, and the Domain name is what domain name it's pointing to. So the **"CNAME"** is a Name which points to another domain name (Name\<www\>, Content\<wesleybortolozo.com\>). We will create a **"CNAME"**.
+* So we have setup two records, the "A" record and the "CNAME" record.

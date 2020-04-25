@@ -1,0 +1,4 @@
+# SSL/TLS/Crypto Tab in CloudFlare
+* Open CloudFlare and go to the SSL/TLS/Crypto icon, then press the button that says **"Full(strict)"**. You are now in **SSL->Overview** Tab, now navegate to **SSL->Origin Server** tab in order to generate **Origin Certificates**.
+* Now in **Order Certificates** press **Create Certificate**. Now let everything as is it and press **Next**, and you will see your **Origin Certificate** and the **Private Key**, don't close this windows, you will need this information, they will only going to be in your server.
+* We are going to need this certificates information to put in the server and allow NGINX to use these to serve the HTTPS requests. So make sure use this information in the next video/lecture.

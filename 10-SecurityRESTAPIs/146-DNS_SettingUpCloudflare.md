@@ -1,1 +1,8 @@
 # Setting Up our DNS setting using CloudFlare
+* CloudFlare is a Content Delivery Network(CDN), and what it does is it sits in front of our server. So whenever anybody accesses our domain, they will, actually, be accesing Cloudflare. Because it sits in front, it lets us do things like store our site on their servers so it's faster, or it gives us security and it lets us prevent any denial-of-service attacks, and a bunch more stuff.
+* It's free if you have low amounts of traffic, so we're gonna learn how to use it. At some point at CloudFlare it will ask us to **Review your DNS records**, if all DNS records are listed. What is a DNS(Domain Name System) record?
+* As mentioned in the leasson 145, the Domain Name System is what allows a browser to enter a string on the address bar and the goes to a particular IP address.
+# Change your nameservers
+* This is a very important step, it's saying that we have to change the main name servers. So the way we do this is to take a copy of the name servers that Cloudflare is asking us to change, example ```dns1.registrar-servers.com``` and ```dns2.registrar-servers.com``` and change to ```xxxxxx.ns.cloudflare.com``` and ```yyyy.ns.cloudflare.com```.
+* So now we take a copy on CloudFlare to the nameservers we need to change to, and then we go to ```namecheap```, and in our Dashboard, then where is your domain, go to the dropdown, click on manage, and finally we are going to change the nameservers section. On the NAMESERVERS on the dropdown select Custom DNS, and add ```xxxxxx.ns.cloudflare.com``` and ```yyyy.ns.cloudflare.com``` there, and then press the tick. Now let's go back to the CloudFlare site.
+* Now on CloudFLare site, press ```Done, check nameservers```.
