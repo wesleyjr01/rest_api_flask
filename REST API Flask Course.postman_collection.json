@@ -725,16 +725,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"price\" : 13.99\n}"
+							"raw": "{\n}"
 						},
 						"url": {
-							"raw": "{{url}}/store/<name>",
+							"raw": "{{url}}/store/Magalu",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"store",
-								"<name>"
+								"Magalu"
 							]
 						},
 						"description": "This will create a new store. If the item already exists, it will fail."
@@ -927,6 +927,446 @@
 					"listen": "test",
 					"script": {
 						"id": "b8e46164-c2b9-4361-afcb-aafc91a77d7f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Section 11",
+			"item": [
+				{
+					"name": "/items",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/items",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"items"
+							]
+						},
+						"description": "This should return a list of items, each in JSON format."
+					},
+					"response": []
+				},
+				{
+					"name": "/stores",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/stores",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"stores"
+							]
+						},
+						"description": "This should return a list of stores, each in JSON format."
+					},
+					"response": []
+				},
+				{
+					"name": "/item/<name>",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/item/<name>",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"<name>"
+							]
+						},
+						"description": "This will return one specific item, uniquely identified by its name. No two items may have the same name."
+					},
+					"response": []
+				},
+				{
+					"name": "/user/<id>",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/user/<id>",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"<id>"
+							]
+						},
+						"description": "This will return one specific item, uniquely identified by its name. No two items may have the same name."
+					},
+					"response": []
+				},
+				{
+					"name": "/store/<name>",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/store/<name>",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"<name>"
+							]
+						},
+						"description": "This will return one specific store, uniquely identified by its name. No two items may have the same name."
+					},
+					"response": []
+				},
+				{
+					"name": "/item/<name>",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"price\" : 13.99,\n\t\"store_id\" : 1\n}"
+						},
+						"url": {
+							"raw": "{{url}}/item/banana",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"banana"
+							]
+						},
+						"description": "This will create a new item. If the item already exists, it will fail."
+					},
+					"response": []
+				},
+				{
+					"name": "/store/<name>",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}"
+						},
+						"url": {
+							"raw": "{{url}}/store/Magalu",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"Magalu"
+							]
+						},
+						"description": "This will create a new store. If the item already exists, it will fail."
+					},
+					"response": []
+				},
+				{
+					"name": "/item/<name>",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"price\" : 191919191,\n\t\"store_id\" : 1\n}"
+						},
+						"url": {
+							"raw": "{{url}}/item/bananas",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"bananas"
+							]
+						},
+						"description": "This will create a new item or update and existing item."
+					},
+					"response": []
+				},
+				{
+					"name": "/item/<name>",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/item/<name>",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"<name>"
+							]
+						},
+						"description": "This will delete an item, uniquely identified by its name. No two items may have the same name."
+					},
+					"response": []
+				},
+				{
+					"name": "/user/<id>",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/user/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/store/<name>",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{jwt_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/store/Magalu",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"Magalu"
+							]
+						},
+						"description": "This will delete a store, uniquely identified by its name. No two stores may have the same name."
+					},
+					"response": []
+				},
+				{
+					"name": "/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "82642921-6a11-4c30-913f-c24356ec8cb5",
+								"exec": [
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"",
+									"tests[\"Acess token was not empty\"] = jsonData.access_token !== undefined;",
+									"postman.setEnvironmentVariable(\"jwt_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\" : \"Wesley\", \"password\" : \"1Salgado\"}"
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Need to authenticate first in order to ask for requests."
+					},
+					"response": []
+				},
+				{
+					"name": "/register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\" : \"Wesley\", \"password\" : \"1Salgado\"}"
+						},
+						"url": {
+							"raw": "{{url}}/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "Need to authenticate first in order to ask for requests."
+					},
+					"response": []
+				},
+				{
+					"name": "/refresh",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1ODc4NTM3ODMsIm5iZiI6MTU4Nzg1Mzc4MywianRpIjoiZDNjMDgyM2EtMjlhYS00ZmRhLTgwZGQtOWIyN2Y0NGI4OWE5IiwiZXhwIjoxNTkwNDQ1NzgzLCJpZGVudGl0eSI6MSwidHlwZSI6InJlZnJlc2gifQ.0s8O2vOJQSyJoYtlhixpZs9okKAZmHz8s3Y0b0k4ym0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/refresh",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a3343e9b-3940-4a7e-8fb3-146457c19729",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0c27d067-b7bb-4f72-a0d4-5b0b559a1ef8",
 						"type": "text/javascript",
 						"exec": [
 							""
