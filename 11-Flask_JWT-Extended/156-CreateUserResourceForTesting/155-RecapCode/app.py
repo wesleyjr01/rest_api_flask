@@ -4,7 +4,7 @@ from flask_jwt import JWT
 from datetime import timedelta
 
 from security import authenticate, identity
-from resources.user import UserRegister  # resources package
+from resources.user import User, UserRegister  # resources package
 from resources.item import Item, ItemList  # resources package
 from resources.store import Store, StoreList  # resources package
 from db import db
@@ -31,6 +31,7 @@ api.add_resource(ItemList, "/items")
 api.add_resource(Store, "/store/<string:name>")
 api.add_resource(StoreList, "/stores")
 api.add_resource(UserRegister, "/register")
+api.add_resource(User, "/user/<int:user_id>")
 
 if __name__ == "__main__":
     # For good error messages debug=True
